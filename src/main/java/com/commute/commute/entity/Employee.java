@@ -1,9 +1,8 @@
 package com.commute.commute.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.commute.commute.dto.CreateEmployeeRequest;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -15,9 +14,42 @@ public class Employee {
 
     private String name;
 
-    private boolean isManager;
+    private String role;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate joinDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate birthday;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Team team;
+
+    public Employee(CreateEmployeeRequest createEmployeeRequest) {
+        this.name = createEmployeeRequest.getName();
+        this.role = createEmployeeRequest.getRole();
+        this.birthday = createEmployeeRequest.getBirthday();
+        this.joinDate = createEmployeeRequest.getJoinDate();
+    }
+
+    public Employee() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public LocalDate getJoinDate() {
+        return joinDate;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
 }

@@ -1,9 +1,6 @@
 package com.commute.commute.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Team {
@@ -11,4 +8,24 @@ public class Team {
     private Long id;
 
     private String name;
+
+    @OneToOne
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Employee manager;
+
+    public Team(String name) {
+        this.name = name;
+    }
+
+    public Team() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Employee getManager() {
+        return manager;
+    }
 }
